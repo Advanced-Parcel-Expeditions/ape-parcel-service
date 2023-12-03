@@ -1,5 +1,5 @@
 kumuluzee:
-  name: image-catalog-service
+  name: ape-parcel-service
   env:
     name: dev
   version: 1.0.0
