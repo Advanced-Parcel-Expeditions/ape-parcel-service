@@ -21,8 +21,8 @@ public class UserEntity {
     @Column(name = "password")
     private String password;
 
-    @OneToOne
-    @JoinColumn(name = "role_id")
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     private RoleEntity role;
 
     public Integer getId() {

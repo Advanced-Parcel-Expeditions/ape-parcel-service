@@ -23,10 +23,10 @@ public class CustomerEntity {
     private String surname;
 
     @Column(name = "company_name")
-    private String company_name;
+    private String companyName;
 
     @Column(name = "tel_num")
-    private String tel_num;
+    private String telNum;
 
     @ManyToOne
     @JoinColumns({
@@ -39,7 +39,7 @@ public class CustomerEntity {
     private StreetEntity street;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 
     public Integer getId() {
@@ -66,20 +66,20 @@ public class CustomerEntity {
         this.surname = surname;
     }
 
-    public String getCompany_name() {
-        return company_name;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setCompany_name(String company_name) {
-        this.company_name = company_name;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public String getTel_num() {
-        return tel_num;
+    public String getTelNum() {
+        return telNum;
     }
 
-    public void setTel_num(String tel_num) {
-        this.tel_num = tel_num;
+    public void setTelNum(String telNum) {
+        this.telNum = telNum;
     }
 
     public StreetEntity getStreet() {

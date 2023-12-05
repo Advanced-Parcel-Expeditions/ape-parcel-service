@@ -1,20 +1,9 @@
-package si.ape.parcel.models.entities;
+package si.ape.parcel.lib;
 
-import javax.persistence.*;
+public class Role {
 
-@Entity
-@Table(name = "role")
-@NamedQueries(value =
-        {
-                @NamedQuery(name = "RoleEntity.getAll",
-                        query = "SELECT r FROM RoleEntity r")
-        })
-
-public class RoleEntity {
-    @Id
     private Integer id;
 
-    @Column(name = "role_name")
     private String roleName;
 
     public Integer getId() {

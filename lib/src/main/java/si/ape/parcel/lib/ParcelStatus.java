@@ -1,19 +1,8 @@
-package si.ape.parcel.models.entities;
+package si.ape.parcel.lib;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "parcel_status")
-@NamedQueries(value =
-        {
-                @NamedQuery(name = "ParcelStatusEntity.getAll",
-                        query = "SELECT p FROM ParcelStatusEntity p")
-        })
-public class ParcelStatusEntity {
-        @Id
+public class ParcelStatus {
         private Integer id;
 
-        @Column(name = "name")
         private String name;
 
         public Integer getId() {
