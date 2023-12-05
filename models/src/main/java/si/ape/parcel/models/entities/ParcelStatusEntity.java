@@ -11,7 +11,6 @@ import javax.persistence.*;
         })
 public class ParcelStatusEntity {
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Integer id;
 
         @Column(name = "name")
@@ -29,7 +28,7 @@ public class ParcelStatusEntity {
                 return name;
         }
 
-        public void setName(String weight) {
+        public void setName(String name) {
                 this.name = name;
         }
 }

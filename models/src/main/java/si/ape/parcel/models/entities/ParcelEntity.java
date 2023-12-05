@@ -7,12 +7,17 @@ import javax.persistence.*;
 @NamedQueries(value =
         {
                 @NamedQuery(name = "ParcelEntity.getAll",
-                        query = "SELECT p FROM ParcelEntity p")
+                        query = "SELECT p FROM ParcelEntity p"),
+                @NamedQuery(name = "ParcelEntity.getAllByParameters",
+                        query = "SELECT p FROM ParcelEntity p WHERE " +
+                                "(:id IS NULL OR p.id = :id) AND " +
+                                "(:senderId IS NULL OR p.sender.id = :senderId) AND " +
+                                "(:recipientId IS NULL OR p.recipient.id = :recipientId) AND " +
+                                "(:parcelStatusId IS NULL OR p.parcelStatus.id = :parcelStatusId)"),
         })
 public class ParcelEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
     @Column(name = "weight")
     private Double weight;
@@ -26,12 +31,12 @@ public class ParcelEntity {
     @Column(name = "depth")
     private Integer depth;
 
-    @OneToOne
-    @JoinColumn(name = "parcel_status_id")
-    private ParcelStatusEntity parcel_status;
+    @ManyToOne
+    @JoinColumn(name = "parcel_status_id", referencedColumnName = "id")
+    private ParcelStatusEntity parcelStatus;
 
-    @OneToOne
-    @JoinColumn(name = "sender_id")
+    @ManyToOne
+    @JoinColumn(name = "sender_id", referencedColumnName = "id")
     private CustomerEntity sender;
 
     @ManyToOne
@@ -42,10 +47,10 @@ public class ParcelEntity {
             @JoinColumn(name = "sender_city_name", referencedColumnName = "city_name"),
             @JoinColumn(name = "sender_country_code", referencedColumnName = "country_code")
     })
-    private StreetEntity sender_street;
+    private StreetEntity senderStreet;
 
     @OneToOne
-    @JoinColumn(name = "recipient_id")
+    @JoinColumn(name = "recipient_id", referencedColumnName = "id")
     private CustomerEntity recipient;
 
     @ManyToOne
@@ -56,13 +61,13 @@ public class ParcelEntity {
             @JoinColumn(name = "recipient_city_name", referencedColumnName = "city_name"),
             @JoinColumn(name = "recipient_country_code", referencedColumnName = "country_code")
     })
-    private StreetEntity recipient_street;
+    private StreetEntity recipientStreet;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -98,12 +103,12 @@ public class ParcelEntity {
         this.depth = depth;
     }
 
-    public ParcelStatusEntity getParcel_status() {
-        return parcel_status;
+    public ParcelStatusEntity getParcelStatus() {
+        return parcelStatus;
     }
 
-    public void setParcel_status(ParcelStatusEntity parcel_status) {
-        this.parcel_status = parcel_status;
+    public void setParcelStatus(ParcelStatusEntity parcelStatus) {
+        this.parcelStatus = parcelStatus;
     }
 
     public CustomerEntity getSender() {
@@ -114,12 +119,12 @@ public class ParcelEntity {
         this.sender = sender;
     }
 
-    public StreetEntity getSender_street() {
-        return sender_street;
+    public StreetEntity getSenderStreet() {
+        return senderStreet;
     }
 
-    public void setSender_street(StreetEntity sender_street) {
-        this.sender_street = sender_street;
+    public void setSenderStreet(StreetEntity senderStreet) {
+        this.senderStreet = senderStreet;
     }
 
     public CustomerEntity getRecipient() {
@@ -130,11 +135,11 @@ public class ParcelEntity {
         this.recipient = recipient;
     }
 
-    public StreetEntity getRecipient_street() {
-        return recipient_street;
+    public StreetEntity getRecipientStreet() {
+        return recipientStreet;
     }
 
-    public void setRecipient_street(StreetEntity recipient_street) {
-        this.recipient_street = recipient_street;
+    public void setRecipientStreet(StreetEntity recipient_street) {
+        this.recipientStreet = recipientStreet;
     }
 }
