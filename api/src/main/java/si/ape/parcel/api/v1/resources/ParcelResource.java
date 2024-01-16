@@ -11,6 +11,8 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import si.ape.parcel.services.beans.ParcelBean;
 
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -28,6 +30,8 @@ import si.ape.parcel.lib.*;
 @Path("/parcels")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@DeclareRoles({"Administrator", "Warehouse manager", "Warehouse agent", "Delivery driver", "International driver",
+        "Logistics agent", "Order confirmation specialist", "Customer"})
 public class ParcelResource {
 
     private final Logger log = Logger.getLogger(ParcelResource.class.getName());
@@ -48,6 +52,8 @@ public class ParcelResource {
                             schema = @Schema(implementation = Parcel.class))
             )})
     @GET
+    @RolesAllowed({"Administrator", "Warehouse manager", "Warehouse agent", "Delivery driver", "International driver",
+            "Logistics agent", "Order confirmation specialist", "Customer"})
     public Response getParcel(@QueryParam("id") String id,
                               @QueryParam("senderId") Integer senderId,
                               @QueryParam("recipientId") Integer recipientId,
@@ -70,6 +76,7 @@ public class ParcelResource {
             @APIResponse(responseCode = "405", description = "Validation error .")
     })
     @POST
+    @RolesAllowed({"Administrator", "Warehouse manager", "Warehouse agent", "Delivery driver", "International driver", "Order confirmation specialist"})
     public Response createParcel(@RequestBody(
             description = "DTO object with parcel data.",
             required = true, content = @Content(
@@ -97,6 +104,8 @@ public class ParcelResource {
     })
     @PUT
     @Path("{parcelId}")
+    @RolesAllowed({"Administrator"})
+    @Deprecated
     public Response putParcel(@Parameter(description = "Parcel ID.", required = true)
                                      @PathParam("parcelId") String parcelId,
                                      @RequestBody(
@@ -128,6 +137,8 @@ public class ParcelResource {
     })
     @DELETE
     @Path("{parcelId}")
+    @RolesAllowed({"Administrator"})
+    @Deprecated
     public Response deleteParcel(@Parameter(description = "Metadata ID.", required = true)
                                         @PathParam("parcelId") Integer parcelId){
 
