@@ -7,6 +7,9 @@ public class ParcelConverter {
 
     public static Parcel toDto(ParcelEntity entity) {
 
+        System.out.println("ParcelConverter.toDto");
+        System.out.println(entity);
+
         Parcel dto = new Parcel();
         dto.setId(entity.getId());
         dto.setWeight(entity.getWeight());

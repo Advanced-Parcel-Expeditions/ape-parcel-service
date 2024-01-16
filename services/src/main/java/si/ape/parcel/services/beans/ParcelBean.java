@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 
 import si.ape.parcel.lib.Parcel;
+import si.ape.parcel.models.entities.CustomerEntity;
 import si.ape.parcel.models.entities.ParcelEntity;
 import si.ape.parcel.models.converters.ParcelConverter;
 
@@ -54,12 +55,31 @@ public class ParcelBean {
 
         try {
             beginTx();
+
+            TypedQuery<CustomerEntity> query = em.createNamedQuery(
+                "CustomerEntity.getById", CustomerEntity.class);
+            query.setParameter("id", parcel.getSender().getId());
+            CustomerEntity sender = query.getSingleResult();
+
+            query = em.createNamedQuery(
+                "CustomerEntity.getById", CustomerEntity.class);
+            query.setParameter("id", parcel.getRecipient().getId());
+            CustomerEntity recipient = query.getSingleResult();
+
+            parcelEntity.setSender(sender);
+            parcelEntity.setRecipient(recipient);
+            parcelEntity.setSenderStreet(sender.getStreet());
+            parcelEntity.setRecipientStreet(recipient.getStreet());
             em.persist(parcelEntity);
             commitTx();
         }
         catch (Exception e) {
+            e.printStackTrace();
             rollbackTx();
+            return null;
         }
+
+        System.out.println(parcelEntity);
 
         if (parcelEntity.getId() == null) {
             throw new RuntimeException("Entity was not persisted");

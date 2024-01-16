@@ -49,7 +49,7 @@ public class ParcelEntity {
     })
     private StreetEntity senderStreet;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "recipient_id", referencedColumnName = "id")
     private CustomerEntity recipient;
 
@@ -139,7 +139,7 @@ public class ParcelEntity {
         return recipientStreet;
     }
 
-    public void setRecipientStreet(StreetEntity recipient_street) {
+    public void setRecipientStreet(StreetEntity recipientStreet) {
         this.recipientStreet = recipientStreet;
     }
 }
