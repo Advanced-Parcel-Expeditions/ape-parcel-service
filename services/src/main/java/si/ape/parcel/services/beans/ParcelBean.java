@@ -10,9 +10,11 @@ import java.util.stream.Collectors;
 
 
 import si.ape.parcel.lib.Parcel;
+import si.ape.parcel.lib.ParcelStatus;
 import si.ape.parcel.models.entities.CustomerEntity;
 import si.ape.parcel.models.entities.ParcelEntity;
 import si.ape.parcel.models.converters.ParcelConverter;
+import si.ape.parcel.models.entities.ParcelStatusEntity;
 
 
 @RequestScoped
@@ -66,10 +68,16 @@ public class ParcelBean {
             query.setParameter("id", parcel.getRecipient().getId());
             CustomerEntity recipient = query.getSingleResult();
 
+            TypedQuery<ParcelStatusEntity> parcelStatusQuery = em.createNamedQuery(
+                "ParcelStatusEntity.getById", ParcelStatusEntity.class);
+            parcelStatusQuery.setParameter("id", parcel.getParcelStatus().getId());
+            ParcelStatusEntity parcelStatus = parcelStatusQuery.getSingleResult();
+
             parcelEntity.setSender(sender);
             parcelEntity.setRecipient(recipient);
             parcelEntity.setSenderStreet(sender.getStreet());
             parcelEntity.setRecipientStreet(recipient.getStreet());
+            parcelEntity.setParcelStatus(parcelStatus);
             em.persist(parcelEntity);
             commitTx();
         }
