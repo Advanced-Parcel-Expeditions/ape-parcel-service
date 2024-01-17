@@ -73,6 +73,9 @@ public class ParcelBean {
             parcelStatusQuery.setParameter("id", parcel.getParcelStatus().getId());
             ParcelStatusEntity parcelStatus = parcelStatusQuery.getSingleResult();
 
+            System.out.println(parcelStatus.getId());
+            System.out.println(parcelStatus.getName());
+
             parcelEntity.setSender(sender);
             parcelEntity.setRecipient(recipient);
             parcelEntity.setSenderStreet(sender.getStreet());
